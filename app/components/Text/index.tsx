@@ -1,13 +1,17 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 import { Text } from "react-native";
 
-type MyTextProps = {
+type MyTextProps = ComponentProps<typeof Text> & {
   children: React.ReactNode;
-  className: string;
+  className?: string;
 };
 
-const MyText = ({ children, className }: MyTextProps) => {
-  return <Text className={className}>{children}</Text>;
+const MyText = ({ children, className, ...props }: MyTextProps) => {
+  return (
+    <Text className={className} {...props}>
+      {children}
+    </Text>
+  );
 };
 
 export default MyText;

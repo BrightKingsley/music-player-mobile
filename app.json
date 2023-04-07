@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "leep",
-    "slug": "leep",
+    "name": "music-player",
+    "slug": "music",
     "version": "1.0.0",
     "orientation": "portrait",
     "jsEngine": "hermes",

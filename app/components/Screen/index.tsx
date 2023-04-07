@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, StatusBar } from "react-native";
+import { SafeAreaView, StyleSheet, StatusBar, Platform } from "react-native";
 import React, { PropsWithChildren, FC, ReactNode } from "react";
 import { colors } from "../../config";
 
@@ -6,11 +6,19 @@ let customStyles: {} = {};
 type screenProps = {
   children: ReactNode;
   translucent?: boolean | null;
+  style?: {};
 };
 
-const Screen: FC<screenProps> = ({ children, translucent }) => {
+const Screen = ({ children, translucent, style }: screenProps) => {
   return (
-    <SafeAreaView style={styles.screen}>
+    <SafeAreaView
+      style={{
+        ...style,
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      }}
+      className="bg-pink flex-1
+      "
+    >
       <StatusBar
         translucent={translucent ? translucent : true}
         backgroundColor="transparent"

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Screen } from "../../components";
 
-const Message = () => {
+const Playlist = () => {
   return (
     <Screen>
       <View
@@ -18,13 +18,13 @@ const Message = () => {
             fontWeight: "bold",
           }}
         >
-          Message
+          Playlist
         </Text>
       </View>
     </Screen>
   );
 };
 
-export default Message;
+export default Playlist;
 
 const styles = StyleSheet.create({});

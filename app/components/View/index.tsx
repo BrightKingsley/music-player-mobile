@@ -1,13 +1,17 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 import { View } from "react-native";
 
-type MyViewProps = {
-  children: React.ReactNode;
-  className: string;
+type MyViewProps = ComponentProps<typeof View> & {
+  children?: React.ReactNode;
+  className?: string;
 };
 
-const MyView = ({ children, className }: MyViewProps) => {
-  return <View className={className}>{children}</View>;
+const MyView = ({ children, className, ...props }: MyViewProps) => {
+  return (
+    <View className={className} {...props}>
+      {children}
+    </View>
+  );
 };
 
 export default MyView;

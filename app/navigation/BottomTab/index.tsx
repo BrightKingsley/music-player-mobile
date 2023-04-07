@@ -1,23 +1,17 @@
-import { View } from "react-native";
+import { ImageBackground, StyleSheet, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { colors } from "../../config";
-import { Feed, Home, Message, Profile, Search } from "../../screens";
-import {
-  MaterialCommunityIcons,
-  MaterialIcons,
-  Ionicons,
-  FontAwesome5,
-  Feather,
-  AntDesign,
-  Octicons,
-} from "@expo/vector-icons";
+import { AudioList, Playlist } from "../../screens";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { FC } from "react";
-import Account from "../Drawer";
-import HomeStack from "../Stack";
+import Player from "../../screens/Player/index";
+import { Disc, Headset, Library } from "../../assets/icons/TabIcons";
+import { useTheme } from "react-native-paper";
+import { BlurView } from "expo-blur";
 
 type tabData = {
   name: string;
-  component: FC;
+
   icon: any;
   iconActive: any;
 };
@@ -25,151 +19,114 @@ type tabData = {
 const tabs: Array<tabData> = [
   {
     name: "home",
-    component: Home,
+    // component: AudioList,
     icon: "home-minus-outline",
     iconActive: "home-minus",
   },
   {
     name: "search",
-    component: Search,
+    // component: Player,
     icon: "home-minus-outline",
     iconActive: "home-minus",
   },
   {
     name: "feed",
-    component: Feed,
+    // component: Playlist,
     icon: "home-minus-outline",
     iconActive: "home-minus",
-  },
-  {
-    name: "message",
-    component: Message,
-    icon: "home-minus-outline",
-    iconActive: "home-minus",
-  },
-  {
-    name: "account",
-    component: Account,
-    icon: "account-outline",
-    iconActive: "account",
   },
 ];
 
 const Tab = createBottomTabNavigator();
 
 const BottomTab = () => {
+  const theme = useTheme();
+
   return (
-    <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: colors.darkGray,
-        tabBarInactiveTintColor: colors.darkGray,
-        tabBarShowLabel: false,
-        tabBarStyle: {
-          backgroundColor: colors.white,
-          height: 60,
-          borderTopWidth: 0,
-        },
-      }}
-      backBehavior="history"
-    >
-      <Tab.Screen
-        options={{
-          tabBarIcon: ({ color, focused, size }) => {
-            return (
-              <MaterialCommunityIcons
-                color={color}
-                name={focused ? "home" : "home-outline"}
-                size={30}
-              />
-            );
+    <>
+      <BlurView style={styles.blur} intensity={100} tint="light" />
+      {/* <View style={styles.tabNavigatorContainer}> */}
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarStyle: {
+            backgroundColor: "rgba(225,225,225,0.3)",
+            position: "absolute",
+            height: 60,
+            bottom: 10,
+            left: 20,
+            right: 20,
+            borderTopWidth: 0,
+            borderRadius: 15,
           },
         }}
-        name="home"
-        component={HomeStack}
-      />
+        backBehavior="history"
+        // screenOptions={{
+        //   activeTintColor: "white",
+        //   inactiveTintColor: "grey",
+        //   style: {
+        //     backgroundColor: "transparent",
+        //     borderTopWidth: 0,
+        //   },
+        //   labelStyle: {
+        //     fontSize: 14,
+        //   },
+        // }}
+      >
+        <Tab.Screen
+          options={{
+            tabBarIcon: ({ color, focused, size }) => (
+              <Headset fill={focused ? "fill-white" : "fill-light-grey"} />
+            ),
+          }}
+          name="AudioList"
+          component={AudioList}
+        />
 
-      <Tab.Screen
-        options={{
-          tabBarIcon: ({ color, focused, size }) => {
-            return (
-              <Ionicons
-                color={color}
-                name={focused ? "search" : "search-outline"}
-                size={30}
-              />
-            );
-          },
-        }}
-        name="search"
-        component={Search}
-      />
+        <Tab.Screen
+          options={{
+            tabBarIcon: ({ color, focused, size }) => (
+              <Disc fill={focused ? "fill-white" : "fill-light-grey"} />
+            ),
+          }}
+          name="Player"
+          component={Player}
+        />
 
-      <Tab.Screen
-        options={{
-          tabBarIcon: ({ color, focused, size }) => {
-            return (
-              <View
-                style={{
-                  width: 70,
-                  height: 70,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: colors.purple,
-                  borderRadius: 35,
-                  padding: 8,
-                  borderWidth: 6,
-                  borderColor: colors.white,
-                  position: "absolute",
-                  marginBottom: 29,
-                  top: -15,
-                }}
-              >
-                <MaterialCommunityIcons
-                  color={colors.white}
-                  name={focused ? "camera" : "camera-outline"}
-                  size={30}
-                />
-              </View>
-            );
-          },
-        }}
-        name="feed"
-        component={Feed}
-      />
-      <Tab.Screen
-        options={{
-          tabBarIcon: ({ color, focused, size }) => {
-            return (
-              <Ionicons
-                color={color}
-                name={focused ? "chatbox-ellipses" : "chatbox-ellipses-outline"}
-                size={30}
-              />
-            );
-          },
-        }}
-        name="chat"
-        component={Message}
-      />
-
-      <Tab.Screen
-        options={{
-          tabBarIcon: ({ color, focused }) => {
-            return (
-              <MaterialCommunityIcons
-                color={color}
-                name={focused ? "account" : "account-outline"}
-                size={30}
-              />
-            );
-          },
-        }}
-        name="account"
-        component={Account}
-      />
-    </Tab.Navigator>
+        <Tab.Screen
+          options={{
+            tabBarIcon: ({ color, focused, size }) => (
+              <Library fill={focused ? "fill-white" : "fill-light-grey"} />
+            ),
+          }}
+          name="PlayList"
+          component={Playlist}
+        />
+      </Tab.Navigator>
+      {/* </View> */}
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    height: 100,
+    width: 300,
+    backgroundColor: "red",
+    paddingVertical: 50,
+  },
+  blur: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  tabNavigatorContainer: {
+    backgroundColor: "green",
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    right: 20,
+    // height: 100,
+  },
+});
 
 export default BottomTab;
